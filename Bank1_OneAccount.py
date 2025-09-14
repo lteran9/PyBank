@@ -1,10 +1,72 @@
 # Non-OOP
-# Bank Version 1
+# Bank Version 2
 # Single Account
 
-accountName = 'Joey'
-accountPassword = 'abcd1234'
-accountBalance = 100
+accountName = ''
+accountPassword = ''
+accountBalance = 0
+
+
+def newAccount(name, balance, password):
+    global accountName, accountPassword, accountBalance
+    accountName = name
+    accountBalance = balance
+    accountPassword = password
+
+
+def show():
+    global accountName, accountPassword, accountBalance
+    print('\tName:', accountName)
+    print('\tBalance:', accountBalance)
+    print('\tPassword:', accountPassword)
+    print()
+
+
+def getBalance():
+    global accountName, accountPassword, accountBalance
+    userPassword = input('Please enter the password: ')
+    if userPassword != accountPassword:
+        print('Incorrect password!')
+    else:
+        print(accountBalance, '\n')
+
+
+def deposit():
+    global accountName, accountPassword, accountBalance
+    userDepositAmount = input('Please enter amount to deposit: ')
+    userDepositAmount = int(userDepositAmount)
+    userPassword = input('Please enter the password: ')
+
+    if userDepositAmount < 0:
+        print('You cannot deposit a negative amount!')
+    elif userPassword != accountPassword:
+        print('Incorrect password!')
+    else:
+        accountBalance = accountBalance + userDepositAmount
+        print('Your new balance is:', accountBalance)
+
+
+def withdraw():
+    global accountName, accountPassword, accountBalance
+    userWithdrawAmount = input('Please enter the amount to withdraw:')
+    userWithdrawAmount = int(userWithdrawAmount)
+    userPassword = input('Please enter the password: ')
+
+    if userWithdrawAmount < 0:
+        print('You cannot withdraw a negative amount')
+
+    elif userPassword != accountPassword:
+        print('Incorrect password!')
+
+    elif userWithdrawAmount > accountBalance:
+        print('You cannot withdraw more than you have in your account')
+
+    else:
+        accountBalance = accountBalance - userWithdrawAmount
+        print('Your new balance is:', accountBalance)
+
+
+newAccount('Joey', 100, 'abcd1234')
 
 while True:
     print('\n--------------------------')
@@ -22,52 +84,19 @@ while True:
 
     if action == 'b':
         print('Get balance:')
-        userPassword = input('Please enter the password: ')
-        if userPassword != accountPassword:
-            print('Incorrect password!')
-        else:
-            print(accountBalance, '\n')
+        getBalance()
 
     elif action == 'd':
         print('Deposit: ')
-        userDepositAmount = input('Please enter amount to deposit: ')
-        userDepositAmount = int(userDepositAmount)
-        userPassword = input('Please enter the password: ')
-
-        if userDepositAmount < 0:
-            print('You cannot deposit a negative amount!')
-        elif userPassword != accountPassword:
-            print('Incorrect password!')
-        else:
-            accountBalance = accountBalance + userDepositAmount
-            print('Your new balance is:', accountBalance)
+        deposit()
 
     elif action == 's':
         print('Show:')
-        print('\tName:', accountName)
-        print('\tBalance:', accountBalance)
-        print('\tPassword:', accountPassword)
-        print()
+        show()
 
     elif action == 'w':
         print('Withdraw:')
-
-        userWithdrawAmount = input('Please enter the amount to withdraw:')
-        userWithdrawAmount = int(userWithdrawAmount)
-        userPassword = input('Please enter the password: ')
-
-        if userWithdrawAmount < 0:
-            print('You cannot withdraw a negative amount')
-
-        elif userPassword != accountPassword:
-            print('Incorrect password!')
-
-        elif userWithdrawAmount > accountBalance:
-            print('You cannot withdraw more than you have in your account')
-
-        else:
-            accountBalance = accountBalance - userWithdrawAmount
-            print('Your new balance is:', accountBalance)
+        withdraw()
 
     elif action == 'q':
         break
