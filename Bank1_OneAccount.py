@@ -1,53 +1,55 @@
 # Non-OOP
-# Bank Version 2
-# Single Account
+# Bank Version 3
+# Any number of accounts with index
 
-accountName = ''
-accountPassword = ''
-accountBalance = 0
+accountNamesList = []
+accountPasswordsList = []
+accountBalancesList = []
 
 
 def newAccount(name, balance, password):
-    global accountName, accountPassword, accountBalance
-    accountName = name
-    accountBalance = balance
-    accountPassword = password
+    global accountNamesList, accountPasswordsList, accountBalancesList
+    accountNamesList.append(name)
+    accountBalancesList.append(balance)
+    accountPasswordsList.append(password)
 
 
-def show():
-    global accountName, accountPassword, accountBalance
-    print('\tName:', accountName)
-    print('\tBalance:', accountBalance)
-    print('\tPassword:', accountPassword)
+def show(accountNumber):
+    global accountNamesList, accountPasswordsList, accountBalancesList
+    print('Account:', accountNumber)
+    print('\tName:', accountNamesList[accountNumber])
+    print('\tBalance:', accountBalancesList[accountNumber])
+    print('\tPassword:', accountPasswordsList[accountNumber])
     print()
 
 
-def getBalance():
-    global accountName, accountPassword, accountBalance
+def getBalance(accountNumber):
+    global accountNamesList, accountPasswordsList, accountBalancesList
     userPassword = input('Please enter the password: ')
-    if userPassword != accountPassword:
+    if userPassword != accountPasswordsList[accountNumber]:
         print('Incorrect password!')
     else:
-        print(accountBalance, '\n')
+        print(accountBalancesList[accountNumber], '\n')
 
 
-def deposit():
-    global accountName, accountPassword, accountBalance
+def deposit(accountNumber):
+    global accountNamesList, accountPasswordsList, accountBalancesList
     userDepositAmount = input('Please enter amount to deposit: ')
     userDepositAmount = int(userDepositAmount)
     userPassword = input('Please enter the password: ')
 
     if userDepositAmount < 0:
         print('You cannot deposit a negative amount!')
-    elif userPassword != accountPassword:
+    elif userPassword != accountPasswordsList[accountNumber]:
         print('Incorrect password!')
     else:
-        accountBalance = accountBalance + userDepositAmount
-        print('Your new balance is:', accountBalance)
+        accountBalancesList[accountNumber] = accountBalancesList[accountNumber] + \
+            userDepositAmount
+        print('Your new balance is:', accountBalancesList[accountNumber])
 
 
-def withdraw():
-    global accountName, accountPassword, accountBalance
+def withdraw(accountNumber):
+    global accountNamesList, accountPasswordsList, accountBalancesList
     userWithdrawAmount = input('Please enter the amount to withdraw:')
     userWithdrawAmount = int(userWithdrawAmount)
     userPassword = input('Please enter the password: ')
@@ -55,18 +57,24 @@ def withdraw():
     if userWithdrawAmount < 0:
         print('You cannot withdraw a negative amount')
 
-    elif userPassword != accountPassword:
+    elif userPassword != accountPasswordsList[accountNumber]:
         print('Incorrect password!')
 
-    elif userWithdrawAmount > accountBalance:
+    elif userWithdrawAmount > accountBalancesList[accountNumber]:
         print('You cannot withdraw more than you have in your account')
 
     else:
-        accountBalance = accountBalance - userWithdrawAmount
-        print('Your new balance is:', accountBalance)
+        accountBalancesList[accountNumber] = accountBalancesList[accountNumber] - \
+            userWithdrawAmount
+        print('Your new balance is:', accountBalancesList[accountNumber])
 
 
-newAccount('Joey', 100, 'abcd1234')
+# Create two sample accounts
+print("Joe's account is account number:", len(accountNamesList))
+newAccount("Joe", 100, 'soup')
+
+print("Mary's account is account number:", len(accountNamesList))
+newAccount("Mary", 12345, 'nuts')
 
 while True:
     print('\n--------------------------')
@@ -84,19 +92,27 @@ while True:
 
     if action == 'b':
         print('Get balance:')
-        getBalance()
+        userAccountNumber = input('Please enter your account number: ')
+        userAccountNumber = int(userAccountNumber)
+        getBalance(userAccountNumber)
 
     elif action == 'd':
         print('Deposit: ')
-        deposit()
+        userAccountNumber = input('Please enter your account number: ')
+        userAccountNumber = int(userAccountNumber)
+        deposit(userAccountNumber)
 
     elif action == 's':
         print('Show:')
-        show()
+        userAccountNumber = input('Please enter your account number: ')
+        userAccountNumber = int(userAccountNumber)
+        show(userAccountNumber)
 
     elif action == 'w':
         print('Withdraw:')
-        withdraw()
+        userAccountNumber = input('Please enter your account number: ')
+        userAccountNumber = int(userAccountNumber)
+        withdraw(userAccountNumber)
 
     elif action == 'q':
         break
